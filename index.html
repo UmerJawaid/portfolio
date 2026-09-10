@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umer Jawaid — Senior QA Analyst &amp; SDET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============ TOKENS ============ */
+:root{
+  --bg:#F3F5F6;
+  --surface:#FFFFFF;
+  --surface-2:#EAEEF0;
+  --text:#171B1F;
+  --muted:#57616B;
+  --border:#D8DEE3;
+  --teal:#0E7C7B;
+  --teal-soft:#E3F1F0;
+  --amber:#B9761F;
+  --amber-soft:#FBEEDD;
+  --red:#B5453A;
+  --red-soft:#F8E9E7;
+  --shadow: none;
+  --radius: 6px;
+}
+html[data-theme="dark"]{
+  --bg:#0E1318;
+  --surface:#161C22;
+  --surface-2:#1D242B;
+  --text:#E7ECEF;
+  --muted:#8C99A4;
+  --border:#2A333B;
+  --teal:#3FC2BE;
+  --teal-soft:#153331;
+  --amber:#E2A33D;
+  --amber-soft:#3A2C15;
+  --red:#E0776A;
+  --red-soft:#3A1E1B;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans', sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background .25s ease, color .25s ease;
+}
+h1,h2,h3,h4{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:600;
+  line-height:1.15;
+  margin:0;
+  letter-spacing:-0.01em;
+}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:inherit;}
+.mono{font-family:'IBM Plex Mono', monospace;}
+:focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+
+.wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+section{padding:96px 0;}
+@media (max-width:720px){ section{padding:64px 0;} }
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:1120px; margin:0 auto; padding:16px 28px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px;
+}
+.nav-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px;}
+.nav-links{display:flex; gap:28px; align-items:center;}
+.nav-links a{
+  font-size:14.5px; color:var(--muted); text-decoration:none;
+  border-bottom:1px solid transparent; padding-bottom:2px;
+  transition:color .15s ease, border-color .15s ease;
+}
+.nav-links a:hover{color:var(--text); border-color:var(--teal);}
+@media (max-width:720px){ .nav-links{display:none;} }
+
+.theme-toggle{
+  width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--border); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text); flex-shrink:0;
+}
+.theme-toggle svg{width:17px; height:17px;}
+.theme-toggle .moon{display:none;}
+html[data-theme="dark"] .theme-toggle .sun{display:none;}
+html[data-theme="dark"] .theme-toggle .moon{display:block;}
+
+/* ============ HERO ============ */
+.hero{padding-top:72px; padding-bottom:88px;}
+.hero-grid{
+  display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+}
+@media (max-width:860px){ .hero-grid{grid-template-columns:1fr;} }
+
+.hero-kicker{
+  font-size:15px; color:var(--teal); font-weight:500; margin-bottom:14px;
+}
+.hero h1{font-size:44px;}
+@media (max-width:520px){ .hero h1{font-size:33px;} }
+.hero-role{font-size:22px; color:var(--muted); margin-top:6px; font-family:'Space Grotesk',sans-serif; font-weight:500;}
+.hero-lede{max-width:52ch; margin-top:22px; font-size:17px; color:var(--muted);}
+.hero-ctas{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 20px; border-radius:var(--radius);
+  font-size:15px; font-weight:500; text-decoration:none;
+  cursor:pointer; border:1px solid transparent;
+  transition:transform .12s ease, background .15s ease, border-color .15s ease;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--teal); color:#fff;}
+.btn-primary:hover{background:color-mix(in srgb, var(--teal) 85%, black);}
+.btn-secondary{background:transparent; border-color:var(--border); color:var(--text);}
+.btn-secondary:hover{border-color:var(--teal); color:var(--teal);}
+
+/* pipeline widget */
+.pipeline-card{
+  border:1px solid var(--border); border-radius:var(--radius);
+  background:var(--surface); overflow:hidden;
+}
+.pipeline-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 18px; border-bottom:1px solid var(--border);
+  background:var(--surface-2);
+}
+.pipeline-head span:first-child{font-size:13.5px; color:var(--muted);}
+.pipeline-head span.build-id{font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:var(--text);}
+.pipeline-body{padding:6px 0;}
+.pipeline-row{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 18px; font-size:14.5px;
+  border-bottom:1px solid var(--border);
+}
+.pipeline-row:last-child{border-bottom:none;}
+.status-dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+.status-dot.pass{background:var(--teal);}
+.status-dot.warn{background:var(--amber);}
+.status-dot.fail{background:var(--red);}
+.pipeline-row .step-name{flex:1; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+.status-tag{
+  font-size:12px; padding:2px 8px; border-radius:4px; font-weight:500;
+}
+.status-tag.pass{background:var(--teal-soft); color:var(--teal);}
+.status-tag.warn{background:var(--amber-soft); color:var(--amber);}
+
+/* ============ SECTION HEADS ============ */
+.section-head{max-width:60ch; margin-bottom:44px;}
+.section-head h2{font-size:30px;}
+.section-head p{color:var(--muted); margin-top:12px; font-size:16px;}
+.section-label{color:var(--teal); font-size:14px; font-weight:500; margin-bottom:10px;}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+@media (max-width:800px){ .about-grid{grid-template-columns:1fr;} }
+.about-bio p{color:var(--muted); font-size:16.5px; margin-bottom:16px;}
+.skill-group{margin-bottom:22px;}
+.skill-group h4{font-size:14px; color:var(--muted); font-weight:500; margin-bottom:10px;}
+.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  font-family:'IBM Plex Mono',monospace; font-size:13px;
+  padding:6px 11px; border:1px solid var(--border); border-radius:4px;
+  color:var(--text); background:var(--surface);
+}
+
+/* ============ EXPERIENCE ============ */
+.job{
+  border-left:2px solid var(--border);
+  padding:4px 0 4px 28px; margin-bottom:44px; position:relative;
+}
+.job::before{
+  content:""; position:absolute; left:-6px; top:8px;
+  width:10px; height:10px; border-radius:50%; background:var(--teal);
+}
+.job-top{
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap;
+}
+.job-company{font-size:20px;}
+.job-status{font-size:13px; color:var(--muted);}
+.job-role{color:var(--teal); font-size:15px; font-weight:500; margin-top:4px;}
+.job-desc{color:var(--muted); margin-top:12px; max-width:66ch; font-size:15.5px;}
+.job-bullets{margin-top:16px; padding:0; list-style:none; display:grid; gap:9px;}
+.job-bullets li{
+  padding-left:20px; position:relative; font-size:15px; color:var(--text);
+}
+.job-bullets li::before{
+  content:"—"; position:absolute; left:0; color:var(--muted);
+}
+
+/* ============ WORKFLOW ============ */
+.workflow-list{display:grid; gap:0;}
+.wf-step{
+  display:grid; grid-template-columns:52px 1fr; gap:20px;
+  padding:22px 0; border-bottom:1px solid var(--border);
+}
+.wf-step:last-child{border-bottom:none;}
+.wf-num{
+  font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--teal);
+  font-weight:500;
+}
+.wf-step h3{font-size:18px; margin-bottom:6px;}
+.wf-step p{color:var(--muted); font-size:15.5px; max-width:62ch;}
+.wf-note{
+  margin-top:28px; padding:18px 20px; border:1px solid var(--border);
+  border-radius:var(--radius); background:var(--surface); color:var(--muted);
+  font-size:15px; max-width:66ch;
+}
+.wf-note strong{color:var(--text);}
+
+/* ============ DEMO ============ */
+.demo-shell{
+  border:1px solid var(--border); border-radius:var(--radius);
+  background:var(--surface); overflow:hidden;
+}
+.demo-toolbar{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 20px; border-bottom:1px solid var(--border); background:var(--surface-2);
+  flex-wrap:wrap; gap:10px;
+}
+.demo-toolbar .build-label{font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:var(--muted);}
+.demo-body{padding:20px;}
+.test-row{
+  display:flex; align-items:center; gap:12px;
+  padding:13px 14px; border:1px solid var(--border); border-radius:5px;
+  margin-bottom:8px; background:var(--bg);
+}
+.test-row .step-name{flex:1; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+.test-row.suspect{border-color:var(--amber); cursor:pointer;}
+.test-row.suspect:hover{background:var(--amber-soft);}
+.demo-actions{display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;}
+.btn-small{padding:9px 16px; font-size:14px;}
+
+.investigate-panel{
+  margin-top:20px; border-top:1px dashed var(--border); padding-top:20px;
+  display:none;
+}
+.investigate-panel.open{display:block;}
+.log-box{
+  background:#10151A; color:#C7D0D6; font-family:'IBM Plex Mono',monospace;
+  font-size:12.8px; line-height:1.7; padding:16px 18px; border-radius:5px;
+  overflow-x:auto; white-space:pre;
+}
+html[data-theme="dark"] .log-box{background:#080B0E;}
+.log-fail{color:#F08A7D;}
+.log-pass{color:#6FD9C6;}
+
+.hypo-question{margin-top:22px; font-size:15.5px; font-weight:500;}
+.hypo-options{display:grid; gap:10px; margin-top:14px;}
+.hypo-option{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; border:1px solid var(--border); border-radius:5px;
+  cursor:pointer; font-size:14.5px; background:var(--bg);
+}
+.hypo-option:hover{border-color:var(--teal);}
+.hypo-option input{accent-color:var(--teal);}
+
+.feedback-box{
+  margin-top:18px; padding:16px 18px; border-radius:5px; font-size:14.8px;
+  display:none;
+}
+.feedback-box.show{display:block;}
+.feedback-box.correct{background:var(--teal-soft); border:1px solid var(--teal); color:var(--text);}
+.feedback-box.incorrect{background:var(--amber-soft); border:1px solid var(--amber); color:var(--text);}
+.feedback-box p{margin-top:8px; color:var(--muted);}
+.feedback-box p:first-child{margin-top:0;}
+
+.fix-panel{margin-top:20px; display:none;}
+.fix-panel.show{display:block;}
+.ticket-card{
+  margin-top:14px; padding:16px 18px; border:1px solid var(--border);
+  border-radius:5px; background:var(--surface-2); display:none; gap:4px;
+}
+.ticket-card.show{display:grid;}
+.ticket-id{font-family:'IBM Plex Mono',monospace; color:var(--teal); font-size:14.5px; font-weight:500;}
+.ticket-meta{font-size:13.5px; color:var(--muted);}
+
+/* ============ CERTS ============ */
+.cert-strip{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px 22px; background:var(--surface);
+}
+.cert-badge{
+  width:44px; height:44px; border-radius:8px; flex-shrink:0;
+  background:var(--teal-soft); color:var(--teal);
+  display:flex; align-items:center; justify-content:center;
+}
+.cert-badge svg{width:22px; height:22px;}
+.cert-text h4{font-size:15.5px;}
+.cert-text span{font-size:13.5px; color:var(--muted);}
+
+/* ============ CONTACT ============ */
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px;}
+@media (max-width:800px){ .contact-grid{grid-template-columns:1fr;} }
+.contact-list{display:grid; gap:14px; margin-top:26px;}
+.contact-item{
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border:1px solid var(--border); border-radius:var(--radius);
+  background:var(--surface); text-decoration:none; color:var(--text);
+  transition:border-color .15s ease;
+}
+.contact-item:hover{border-color:var(--teal);}
+.contact-item svg{width:18px; height:18px; color:var(--teal); flex-shrink:0;}
+.contact-item .label{font-size:12.5px; color:var(--muted); display:block;}
+.contact-item .value{font-size:14.5px; font-family:'IBM Plex Mono',monospace;}
+
+.form-field{margin-bottom:16px;}
+.form-field label{display:block; font-size:13.5px; color:var(--muted); margin-bottom:6px;}
+.form-field input, .form-field textarea{
+  width:100%; padding:11px 13px; border:1px solid var(--border); border-radius:5px;
+  background:var(--surface); color:var(--text); font-family:'IBM Plex Sans',sans-serif;
+  font-size:14.5px;
+}
+.form-field textarea{resize:vertical; min-height:96px;}
+.form-field input:focus, .form-field textarea:focus{border-color:var(--teal); outline:none;}
+
+footer{
+  border-top:1px solid var(--border); padding:28px 0; text-align:center;
+  color:var(--muted); font-size:13.5px;
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-name">Umer Jawaid</span>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#workflow">AI Workflow</a>
+      <a href="#demo">Live Demo</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.2 14.9A8.4 8.4 0 1 1 9.1 3.8a7 7 0 0 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-kicker">Available for Senior QA / SDET roles</div>
+      <h1>Umer Jawaid</h1>
+      <div class="hero-role">Senior QA Analyst &amp; SDET</div>
+      <p class="hero-lede">I find the failures your pipeline is hiding, then build the automation that keeps them from coming back — across web, API, mobile, and performance testing.</p>
+      <div class="hero-ctas">
+        <a href="#demo" class="btn btn-primary">Try the flaky-test demo</a>
+        <a href="#contact" class="btn btn-secondary">Get in touch</a>
+      </div>
+    </div>
+    <div class="pipeline-card">
+      <div class="pipeline-head">
+        <span>main · nightly regression</span>
+        <span class="build-id">build #482</span>
+      </div>
+      <div class="pipeline-body">
+        <div class="pipeline-row"><span class="status-dot pass"></span><span class="step-name">checkout</span><span class="status-tag pass">Passed</span></div>
+        <div class="pipeline-row"><span class="status-dot pass"></span><span class="step-name">unit-tests</span><span class="status-tag pass">Passed</span></div>
+        <div class="pipeline-row"><span class="status-dot warn"></span><span class="step-name">e2e-suite</span><span class="status-tag warn">Flaky</span></div>
+        <div class="pipeline-row"><span class="status-dot pass"></span><span class="step-name">deploy</span><span class="status-tag pass">Passed</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-bio">
+      <div class="section-label">About</div>
+      <p>I'm a Senior QA Analyst and SDET with a background spanning manual testing, automation architecture, API and performance testing, and CI/CD. I've worked across web, iOS, and Android products, and I care as much about <em>why</em> a test fails as whether it passes.</p>
+      <p>Lately I've been building AI-assisted workflows that speed up the least interesting parts of QA — spec-to-test-case generation, repetitive scripting, and reporting — so more of my time goes to the investigative work that actually needs a human.</p>
+    </div>
+    <div>
+      <div class="skill-group">
+        <h4>Automation &amp; languages</h4>
+        <div class="chip-row">
+          <span class="chip">Cypress</span><span class="chip">JavaScript</span><span class="chip">Python</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>API &amp; performance</h4>
+        <div class="chip-row">
+          <span class="chip">Postman</span><span class="chip">Insomnia</span><span class="chip">JMeter</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>CI/CD &amp; cloud</h4>
+        <div class="chip-row">
+          <span class="chip">Jenkins</span><span class="chip">AWS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Test management</h4>
+        <div class="chip-row">
+          <span class="chip">TestRail</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" style="background:var(--surface-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Experience</div>
+      <h2>Where I've put this into practice</h2>
+    </div>
+
+    <div class="job">
+      <div class="job-top">
+        <span class="job-company">Contour Software</span>
+        <span class="job-status">Current</span>
+      </div>
+      <div class="job-role">Senior QA Analyst / Senior SDET</div>
+      <p class="job-desc">Own quality across a court case management platform serving justice-sector clients, covering manual testing, automation, and API/performance work across web and backend services.</p>
+      <ul class="job-bullets">
+        <li>Architected a modular Cypress automation framework integrated into Jenkins pipelines</li>
+        <li>Investigate and stabilize flaky, intermittent CI failures to keep the test signal trustworthy</li>
+        <li>Built API test coverage in Postman and Insomnia, and load/performance scripts in JMeter</li>
+        <li>Designed an AI-assisted test case generation and reporting pipeline (see below)</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-top">
+        <span class="job-company">Sudofy</span>
+        <span class="job-status">Previous</span>
+      </div>
+      <div class="job-role">QA Analyst / SDET</div>
+      <p class="job-desc">Delivered QA across several client products spanning construction-site management, content generation, task management, and mobile loyalty/rewards apps — across iPad, web, iOS, and Android.</p>
+      <ul class="job-bullets">
+        <li>Built and maintained automation suites across concurrent web and mobile projects</li>
+        <li>Owned test case design and execution tracking in TestRail across multiple clients at once</li>
+        <li>Worked directly with cross-functional teams to turn specs into real test coverage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKFLOW ============ -->
+<section id="workflow">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Signature workflow</div>
+      <h2>How I use Claude to speed up test automation</h2>
+      <p>A four-stage pipeline that turns a requirement into a tested, reported feature — with a human checkpoint at each handoff.</p>
+    </div>
+
+    <div class="workflow-list">
+      <div class="wf-step">
+        <div class="wf-num">01</div>
+        <div>
+          <h3>Generate the spec</h3>
+          <p>A Claude skill I built takes requirements and generates structured test cases as a Markdown file — readable by anyone on the team, not locked in a tool.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">02</div>
+        <div>
+          <h3>Manual pass</h3>
+          <p>A manual tester runs the generated cases first. This catches ambiguity and exploratory issues before anything gets automated.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">03</div>
+        <div>
+          <h3>Automate the repeatable</h3>
+          <p>An automation engineer scripts the stable, repetitive cases so they run in CI on every future change, instead of by hand every cycle.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">04</div>
+        <div>
+          <h3>Review &amp; report</h3>
+          <p>A reviewing agent checks results against the original spec and produces a clean status report — so results are traceable back to the original requirement.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-note">
+      <strong>Why it matters:</strong> the goal isn't to replace judgment with AI — it's to spend less time on repetitive scripting and more time on the part that actually needs a senior tester: deciding what "correct" means and investigating what "flaky" is hiding.
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO ============ -->
+<section id="demo" style="background:var(--surface-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Live demo</div>
+      <h2>Find the flaky test</h2>
+      <p>This is a simulated CI run — not a recording. Re-run the suite a few times, spot the test that won't behave, then walk through the same investigation I'd run in a real pipeline.</p>
+    </div>
+
+    <div class="demo-shell">
+      <div class="demo-toolbar">
+        <span class="build-label">main · regression-suite · build #204</span>
+        <button class="btn btn-secondary btn-small" id="rerunBtn">Re-run suite</button>
+      </div>
+      <div class="demo-body">
+        <div id="testList"></div>
+
+        <div class="demo-actions">
+          <button class="btn btn-primary btn-small" id="investigateBtn" disabled>Investigate suspect test</button>
+        </div>
+
+        <div class="investigate-panel" id="investigatePanel">
+          <h3 style="font-size:16px; margin-bottom:12px;">CI log — checkout-flow.spec.js</h3>
+          <div class="log-box" id="logBox"></div>
+
+          <div class="hypo-question">What's most likely causing this?</div>
+          <div class="hypo-options" id="hypoOptions">
+            <label class="hypo-option"><input type="radio" name="hypo" value="wait"> A hard-coded wait that's sometimes too short</label>
+            <label class="hypo-option"><input type="radio" name="hypo" value="race"> A race condition between the UI and an async recalculation</label>
+            <label class="hypo-option"><input type="radio" name="hypo" value="data"> Shared test data left over from a previous run</label>
+            <label class="hypo-option"><input type="radio" name="hypo" value="env"> Environment or network flakiness</label>
+          </div>
+          <div class="demo-actions">
+            <button class="btn btn-primary btn-small" id="checkHypoBtn">Check hypothesis</button>
+          </div>
+
+          <div class="feedback-box" id="feedbackBox"></div>
+
+          <div class="fix-panel" id="fixPanel">
+            <div class="demo-actions">
+              <button class="btn btn-secondary btn-small" id="flagBtn">Flag as flaky &amp; open ticket</button>
+            </div>
+            <div class="ticket-card" id="ticketCard">
+              <span class="ticket-id">Ticket QA-1042 created</span>
+              <span class="ticket-meta">checkout-flow.spec.js › confirms order total — root cause: race condition — priority: high</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CERTS ============ -->
+<section id="certs">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Certification</div>
+      <h2>Currently certified</h2>
+    </div>
+    <div class="cert-strip">
+      <div class="cert-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <div class="cert-text">
+        <h4>AWS Certified Cloud Practitioner</h4>
+        <span>Amazon Web Services</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" style="background:var(--surface-2);">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="section-label">Contact</div>
+      <h2>Let's talk about your open role</h2>
+      <p style="color:var(--muted); margin-top:14px; max-width:44ch;">Open to Senior QA Analyst and SDET positions. Happy to walk through any project above, or the AI workflow, in more depth.</p>
+
+      <div class="contact-list">
+        <a class="contact-item" href="mailto:jawaidumer94@hotmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+          <span><span class="label">Email</span><span class="value">jawaidumer94@hotmail.com</span></span>
+        </a>
+        <a class="contact-item" href="tel:+923362253454">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3 10.6 10.6 0 003.4.5 1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 013 4.2 1.2 1.2 0 014.2 3H8a1.2 1.2 0 011.2 1.2 10.6 10.6 0 00.5 3.4 1.2 1.2 0 01-.3 1.2z"/></svg>
+          <span><span class="label">Phone</span><span class="value">+92 336 2253454</span></span>
+        </a>
+        <a class="contact-item" href="https://www.linkedin.com/in/umerjawaid/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4.5a2 2 0 014 0V17M11 12.5V17"/></svg>
+          <span><span class="label">LinkedIn</span><span class="value">/in/umerjawaid</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <form id="contactForm">
+        <div class="form-field">
+          <label for="fName">Your name</label>
+          <input type="text" id="fName" required>
+        </div>
+        <div class="form-field">
+          <label for="fEmail">Your email</label>
+          <input type="email" id="fEmail" required>
+        </div>
+        <div class="form-field">
+          <label for="fMsg">Message</label>
+          <textarea id="fMsg" required placeholder="Tell me a bit about the role..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Umer Jawaid. Built to show how I think, not just what I've done.</div>
+</footer>
+
+<script>
+// ---------- Theme toggle (in-memory only, respects system preference on load) ----------
+(function(){
+  var root = document.documentElement;
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    var current = root.getAttribute('data-theme');
+    root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+// ---------- Flaky test demo ----------
+(function(){
+  var tests = [
+    {name:'loads-storefront.spec.js', suspect:false},
+    {name:'adds-item-to-cart.spec.js', suspect:false},
+    {name:'checkout-flow.spec.js', suspect:true},
+    {name:'applies-discount.spec.js', suspect:false},
+    {name:'sends-confirmation-email.spec.js', suspect:false}
+  ];
+
+  var testListEl = document.getElementById('testList');
+  var investigateBtn = document.getElementById('investigateBtn');
+  var investigatePanel = document.getElementById('investigatePanel');
+  var logBox = document.getElementById('logBox');
+  var feedbackBox = document.getElementById('feedbackBox');
+  var fixPanel = document.getElementById('fixPanel');
+  var ticketCard = document.getElementById('ticketCard');
+  var checkHypoBtn = document.getElementById('checkHypoBtn');
+  var flagBtn = document.getElementById('flagBtn');
+  var rerunBtn = document.getElementById('rerunBtn');
+
+  var passLog = [
+    '[12:04:21] checkout-flow.spec.js',
+    '[12:04:22]   <span class="log-pass">✓</span> loads product page (412ms)',
+    '[12:04:23]   <span class="log-pass">✓</span> adds item to cart (298ms)',
+    '[12:04:24]   <span class="log-pass">✓</span> confirms order total (356ms)',
+    '[12:04:24]   <span class="log-pass">✓</span> completes checkout (201ms)'
+  ].join('\n');
+
+  var failLog = [
+    '[12:04:21] checkout-flow.spec.js',
+    '[12:04:22]   <span class="log-pass">✓</span> loads product page (412ms)',
+    '[12:04:23]   <span class="log-pass">✓</span> adds item to cart (298ms)',
+    '[12:04:24]   <span class="log-fail">✗</span> confirms order total (timeout 5000ms)',
+    '[12:04:24]     expected "$84.50" to equal "$0.00"',
+    '[12:04:24]     cy.get(\'[data-testid="order-total"]\') read before totals finished recalculating'
+  ].join('\n');
+
+  function renderTests(lastRunFailed){
+    testListEl.innerHTML = '';
+    tests.forEach(function(t){
+      var row = document.createElement('div');
+      var isFail = t.suspect && lastRunFailed;
+      row.className = 'test-row' + (t.suspect ? ' suspect' : '');
+      row.innerHTML =
+        '<span class="status-dot ' + (isFail ? 'fail' : 'pass') + '"></span>' +
+        '<span class="step-name">' + t.name + '</span>' +
+        '<span class="status-tag ' + (isFail ? 'warn' : 'pass') + '">' + (isFail ? 'Failed this run' : 'Passed') + '</span>';
+      if (t.suspect){
+        row.addEventListener('click', function(){ openInvestigation(isFail); });
+      }
+      testListEl.appendChild(row);
+    });
+    investigateBtn.disabled = false;
+  }
+
+  var currentlyFailed = false;
+  renderTests(false);
+
+  rerunBtn.addEventListener('click', function(){
+    currentlyFailed = Math.random() < 0.6; // flaky test fails most, but not all, runs
+    renderTests(currentlyFailed);
+    resetInvestigation();
+  });
+
+  investigateBtn.addEventListener('click', function(){ openInvestigation(currentlyFailed); });
+
+  function openInvestigation(isFail){
+    investigatePanel.classList.add('open');
+    logBox.innerHTML = isFail ? failLog : passLog;
+    investigatePanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  function resetInvestigation(){
+    feedbackBox.className = 'feedback-box';
+    feedbackBox.innerHTML = '';
+    fixPanel.classList.remove('show');
+    ticketCard.classList.remove('show');
+    var radios = document.querySelectorAll('input[name="hypo"]');
+    radios.forEach(function(r){ r.checked = false; });
+  }
+
+  checkHypoBtn.addEventListener('click', function(){
+    var selected = document.querySelector('input[name="hypo"]:checked');
+    if (!selected){
+      feedbackBox.className = 'feedback-box show incorrect';
+      feedbackBox.innerHTML = '<p>Pick an option above first — take another look at the log if you\'re not sure.</p>';
+      return;
+    }
+    if (selected.value === 'race'){
+      feedbackBox.className = 'feedback-box show correct';
+      feedbackBox.innerHTML =
+        '<p><strong>That\'s the one.</strong></p>' +
+        '<p>The order total renders as soon as the cart component mounts, but the price recalculation runs as a separate async call. On a fast run, the assertion checks the total before that call resolves — reading a stale $0.00. The fix isn\'t a longer wait; it\'s asserting on a signal the app actually exposes once recalculation is done, so the test reflects real readiness instead of guessing at timing.</p>';
+      fixPanel.classList.add('show');
+    } else {
+      feedbackBox.className = 'feedback-box show incorrect';
+      feedbackBox.innerHTML = '<p>Not quite — look again at <em>when</em> the failing assertion runs relative to the other steps in the log, not just what it reads.</p>';
+    }
+  });
+
+  flagBtn.addEventListener('click', function(){
+    ticketCard.classList.add('show');
+    flagBtn.disabled = true;
+    flagBtn.textContent = 'Ticket created';
+  });
+})();
+
+// ---------- Contact form (mailto handoff, no backend) ----------
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('fName').value;
+  var email = document.getElementById('fEmail').value;
+  var msg = document.getElementById('fMsg').value;
+  var subject = encodeURIComponent('Opportunity for Umer Jawaid');
+  var body = encodeURIComponent('From: ' + name + ' (' + email + ')\n\n' + msg);
+  window.location.href = 'mailto:jawaidumer94@hotmail.com?subject=' + subject + '&body=' + body;
+});
+</script>
+
+</body>
+</html>
